@@ -19,5 +19,7 @@ from .config_so_follower import (
     SO101FollowerConfig,
     SOFollowerConfig,
     SOFollowerRobotConfig,
+    SO101FollowerDragontactilConfig,
 )
 from .so_follower import SO100Follower, SO101Follower, SOFollower
+from .so_follower_dragontactil import SO101FollowerDragontactil

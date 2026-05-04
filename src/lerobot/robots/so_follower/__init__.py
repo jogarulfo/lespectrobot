@@ -19,15 +19,7 @@ from .config_so_follower import (
     SO101FollowerConfig,
     SOFollowerConfig,
     SOFollowerRobotConfig,
+    SO101FollowerDragontactileConfig,
 )
 from .so_follower import SO100Follower, SO101Follower, SOFollower
-
-__all__ = [
-    "SO100Follower",
-    "SO100FollowerConfig",
-    "SO101Follower",
-    "SO101FollowerConfig",
-    "SOFollower",
-    "SOFollowerConfig",
-    "SOFollowerRobotConfig",
-]
+from .so_follower_dragontactile import SO101FollowerDragontactile

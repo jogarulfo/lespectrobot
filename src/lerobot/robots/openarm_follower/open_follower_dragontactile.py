@@ -24,19 +24,18 @@ import scipy.signal
 
 from lerobot.types import RobotObservation
 
-from .config_so_follower import SO101FollowerConfig
-from .so_follower import SOFollower
+from .openarm_follower import OpenArmFollower
+from .config_openarm_follower import OpenArmFollowerConfigBase
 
 logger = logging.getLogger(__name__)
 
 
-class SO101FollowerDragontactile(SOFollower):
-    """SO101 follower with an additional tactile spectrogram observation."""
+class OpenFollowerDragonTacile(OpenArmFollower) :
 
-    config_class = SO101FollowerConfig
-    name = "so101_follower_dragontactile"
+    config_class = OpenArmFollowerConfigBase
+    name = "openarm_follower_dragontactile"
 
-    def __init__(self, config: SO101FollowerConfig):
+    def __init__(self,config:OpenArmFollowerConfigBase) :
         super().__init__(config)
         self._tactile_obs_key = "tactile_spectrogram"
 
@@ -174,6 +173,15 @@ class SO101FollowerDragontactile(SOFollower):
         if spectrogram is not None:
             obs[self._tactile_obs_key] = spectrogram
 
+
+        # Capture images from cameras
+        for cam_key, cam in self.cameras.items():
+            start = time.perf_counter()
+            obs_dict[cam_key] = cam.read_latest()
+            dt_ms = (time.perf_counter() - start) * 1e3
+            logger.debug(f"{self} read {cam_key}: {dt_ms:.1f}ms")
+
+            
         total_latency = (time.perf_counter() - tick_start) * 1000
         logger.debug(f"Observation tick sync completed in {total_latency:.2f}ms")
         return obs
